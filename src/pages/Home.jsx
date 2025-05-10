@@ -99,7 +99,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className="text-center text-2xl font-bold my-5">This is a home page</h1>
+
+      
+
+      {/* <h1 className="text-center text-2xl font-bold my-5">This is a home page</h1> */}
 
       <div className='bg-black my-3 p-5 flex justify-center gap-2 w-max m-auto rounded-md'>
         <input ref={snoRef} className='py-1 px-7' type='number' placeholder='enter sno' />
