@@ -17,7 +17,7 @@ function App() {
   return (
     <>
      <BrowserRouter>
-     <Navbar setlogin={setlogin}/>
+     <Navbar login={login}/>
      <Routes>
       <Route path='/' element={login===true?<Home/>:<Navigate to={"/login"}/>}/>
       <Route path='/login' element={login===false?<Login setlogin={setlogin}/>:<Navigate to={"/"}/>}/>

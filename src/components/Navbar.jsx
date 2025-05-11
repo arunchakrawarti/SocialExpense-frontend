@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 
  
 const Navbar = (props) => {
-  // props.setlogin
-  // console.log(props.setlogin)
+  // props.login
+  let data = props.login;
+  console.log(data)
   
   function handlelogout(){
     localStorage.removeItem('expenseLogin')
@@ -13,7 +14,7 @@ const Navbar = (props) => {
    let details = JSON.parse(localStorage.getItem('expenseLogin'));
   console.log(details)
   let login = details?.login
-  console.log(login)
+  // console.log(login)
   return (
     
  
@@ -36,13 +37,13 @@ const Navbar = (props) => {
         <li>
           <Link to="/" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</Link>
         </li>
-       {login===false&&<li>
+       {data===false&&<li>
           <Link to="/login" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Login</Link>
         </li>}
-        {login===false&&<li>
+        {data===false&&<li>
           <Link to="/register" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Signup</Link>
         </li>}
-        {login===true&&<li>
+        {data===true&&<li>
           <button onClick={handlelogout} className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</button>
         </li>}
         
