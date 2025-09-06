@@ -1,6 +1,3 @@
-
-
-
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "antd";
@@ -13,20 +10,22 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  // ✅ Update state (instead of refs)
+  const [updateData, setUpdateData] = useState({
+    expenseName: "",
+    price: "",
+    date: "",
+  });
+
   // ✅ userId fix
   const user = JSON.parse(localStorage.getItem("expenseLogin"));
-  const id = user?._id || user?.user?._id; // covers both cases
+  const id = user?._id || user?.user?._id;
 
   // Refs for add expense
   const snoRef = useRef();
   const placeRef = useRef();
   const priceRef = useRef();
   const dateRef = useRef();
-
-  // Refs for update expense
-  const updateNameRef = useRef();
-  const updatePriceRef = useRef();
-  const updateDateRef = useRef();
 
   // Show modal
   const showModal = () => setIsModalOpen(true);
@@ -91,36 +90,26 @@ const Home = () => {
   // ✅ Update expense (open modal with prefilled values)
   const handleUpdate = (ele) => {
     setSelectedId(ele._id);
-    updateNameRef.current.value = ele.expenseName;
-    updatePriceRef.current.value = ele.price;
-    updateDateRef.current.value = ele.date;
+    setUpdateData({
+      expenseName: ele.expenseName,
+      price: ele.price,
+      date: ele.date,
+    });
     showModal();
   };
 
   // ✅ Submit update
   const handleOk = async () => {
-    let obj = {};
-    if (updateNameRef.current.value)
-      obj.expenseName = updateNameRef.current.value;
-    if (updatePriceRef.current.value)
-      obj.price = updatePriceRef.current.value;
-    if (updateDateRef.current.value)
-      obj.date = updateDateRef.current.value;
-
     try {
       let res = await axios.put(
         `https://fullstackexpense.onrender.com/api/expense/update/${selectedId}`,
-        obj
+        updateData
       );
       console.log(res.data);
       getData();
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
-
-    updateNameRef.current.value = "";
-    updatePriceRef.current.value = "";
-    updateDateRef.current.value = "";
     setIsModalOpen(false);
   };
 
@@ -230,21 +219,30 @@ const Home = () => {
         <div className="flex flex-col">
           <label>Expense Name</label>
           <input
-            ref={updateNameRef}
+            value={updateData.expenseName}
+            onChange={(e) =>
+              setUpdateData({ ...updateData, expenseName: e.target.value })
+            }
             className="py-2 px-4 my-1 border border-blue-950 rounded-md"
             type="text"
             placeholder="Enter expense name..."
           />
           <label>Price</label>
           <input
-            ref={updatePriceRef}
+            value={updateData.price}
+            onChange={(e) =>
+              setUpdateData({ ...updateData, price: e.target.value })
+            }
             className="py-2 px-4 my-1 border border-blue-950 rounded-md"
             type="number"
             placeholder="Enter price"
           />
           <label>Date</label>
           <input
-            ref={updateDateRef}
+            value={updateData.date}
+            onChange={(e) =>
+              setUpdateData({ ...updateData, date: e.target.value })
+            }
             className="py-2 px-4 my-1 border border-blue-950 rounded-md"
             type="date"
           />
@@ -255,8 +253,5 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
 
 
